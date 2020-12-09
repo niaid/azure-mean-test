@@ -6,6 +6,7 @@
     "start": "ts-node ./bin/www.ts"
   },
   "dependencies": {
+    "@types/node": "^14.14.11",
     "axios": "^0.21.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
