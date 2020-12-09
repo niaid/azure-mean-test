@@ -7,6 +7,6 @@ COPY app /opt/mean-test
 
 RUN yarn
 
-EXPOSE 8080
+EXPOSE 3000 
 
-CMD [ "yarn", "serve" ]
+CMD [ "yarn", "start" ]
