@@ -11,33 +11,55 @@
       tr
         th Name
         th Result
-      tr(v-for="test in tests")
-        td {{ test.name }} 
-        td {{test.result}}
+      tr
+        td github
+        td {{ githubResponse }}
   
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 
+interface IResults {
+  github: string
+}
+
+var results: IResults = {
+  github: "Unknown"
+}
+
 @Component
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
 
-  data() {
-    return {
-      tests: [
-        {
-          name: "foo", 
-          result: "bar"
-        },
-        {
-          name: "super_long_name_ok",
-          result: "super_long_result_ok"
-        }
-      ]
-    }
+  get githubResponse() {
+    return results.github;
   }
+
+  checkNiaidGithub() {
+
+    var http = require('http');
+    var options = {
+      host: 'https://github.niaid.nih.gov/',
+      path: '/'
+    };
+    
+    let callback = function(response: any) {
+      results.github = '';
+
+      response.on('data', function(chunk: any) {
+        results.github += chunk;
+      });
+
+      //the whole response has been received, so we just print it out here
+      response.on('end', function () {
+        console.log( `Finished GET ${options.host}`)
+      });
+    }
+
+    http.request(options, callback).end();
+  }
+
 }
 </script>
 
